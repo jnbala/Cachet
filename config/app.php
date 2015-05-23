@@ -168,7 +168,6 @@ return [
         'CachetHQ\Cachet\Providers\ConfigServiceProvider',
         'CachetHQ\Cachet\Providers\ConsoleServiceProvider',
         'CachetHQ\Cachet\Providers\EventServiceProvider',
-        'CachetHQ\Cachet\Providers\RepositoryServiceProvider',
         'CachetHQ\Cachet\Providers\RouteServiceProvider',
         'CachetHQ\Cachet\Providers\SettingsServiceProvider',
         'CachetHQ\Cachet\Providers\SegmentApiServiceProvider',

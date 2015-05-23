@@ -11,7 +11,7 @@
 
 namespace CachetHQ\Cachet\Http\Controllers\Api;
 
-use CachetHQ\Cachet\Repositories\Incident\IncidentRepository;
+use CachetHQ\Cachet\Models\Incident;
 use GrahamCampbell\Binput\Facades\Binput;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
@@ -21,16 +21,16 @@ class IncidentController extends AbstractApiController
     /**
      * The incident repository instance.
      *
-     * @var \CachetHQ\Cachet\Repositories\Incident\IncidentRepository
+     * @var \CachetHQ\Cachet\Models\Incident
      */
     protected $incident;
 
     /**
      * Create a new incident controller instance.
      *
-     * @param \CachetHQ\Cachet\Repositories\Incident\IncidentRepository $incident
+     * @param \CachetHQ\Cachet\Models\Incident $incident
      */
-    public function __construct(IncidentRepository $incident)
+    public function __construct(Incident $incident)
     {
         $this->incident = $incident;
     }

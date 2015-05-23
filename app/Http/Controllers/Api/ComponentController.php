@@ -12,7 +12,7 @@
 namespace CachetHQ\Cachet\Http\Controllers\Api;
 
 use CachetHQ\Cachet\Models\Tag;
-use CachetHQ\Cachet\Repositories\Component\ComponentRepository;
+use CachetHQ\Cachet\Models\Component;
 use GrahamCampbell\Binput\Facades\Binput;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
@@ -22,16 +22,16 @@ class ComponentController extends AbstractApiController
     /**
      * The component repository instance.
      *
-     * @var \CachetHQ\Cachet\Repositories\Component\ComponentRepository
+     * @var \CachetHQ\Cachet\Models\Component
      */
     protected $component;
 
     /**
      * Create a new component controller instance.
      *
-     * @param \CachetHQ\Cachet\Repositories\Component\ComponentRepository $component
+     * @param \CachetHQ\Cachet\Models\Component $component
      */
-    public function __construct(ComponentRepository $component)
+    public function __construct(Component $component)
     {
         $this->component = $component;
     }

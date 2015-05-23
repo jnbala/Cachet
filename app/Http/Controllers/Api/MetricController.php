@@ -11,7 +11,7 @@
 
 namespace CachetHQ\Cachet\Http\Controllers\Api;
 
-use CachetHQ\Cachet\Repositories\Metric\MetricRepository;
+use CachetHQ\Cachet\Models\Metric;
 use GrahamCampbell\Binput\Facades\Binput;
 use Illuminate\Http\Request;
 
@@ -20,16 +20,16 @@ class MetricController extends AbstractApiController
     /**
      * The metric repository instance.
      *
-     * @var \CachetHQ\Cachet\Repositories\Metric\MetricRepository
+     * @var \CachetHQ\Cachet\Models\Metric
      */
     protected $metric;
 
     /**
      * Create a new metric controller instance.
      *
-     * @param \CachetHQ\Cachet\Repositories\Metric\MetricRepository $metric
+     * @param \CachetHQ\Cachet\Models\Metric $metric
      */
-    public function __construct(MetricRepository $metric)
+    public function __construct(Metric $metric)
     {
         $this->metric = $metric;
     }
