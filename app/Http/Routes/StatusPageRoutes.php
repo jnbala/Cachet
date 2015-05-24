@@ -30,6 +30,18 @@ class StatusPageRoutes
                 'as'   => 'status-page',
                 'uses' => 'HomeController@showIndex',
             ]);
+            $router->get('subscribe', [
+                'as'   => 'subscribe-page',
+                'uses' => 'SubscribeController@showSubscribe',
+            ]);
+            $router->post('subscribe', [
+                'as'   => 'subscribe',
+                'uses' => 'SubscribeController@postSubscribe',
+            ]);
+            $router->post('subscribe/{code}', [
+                'as'   => 'subscribe-verify',
+                'uses' => 'SubscribeController@getVerify',
+            ]);
             $router->get('/atom/{component_group?}', 'AtomController@feedAction');
             $router->get('/rss/{component_group?}', 'RssController@feedAction');
         });

@@ -15,18 +15,22 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubscriptionsTable extends Migration
+class CreateSubscribersTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up()
     {
-        Schema::create('subscriptions', function (Blueprint $table) {
+        Schema::create('subscribers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('email');
+            $table->string('verify_code');
+            $table->timestamp('verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique(['email']);
         });
     }
 
@@ -35,6 +39,6 @@ class CreateSubscriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('subscriptions');
+        Schema::drop('subscribers');
     }
 }
