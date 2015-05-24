@@ -69,12 +69,12 @@ class ComponentController extends AbstractApiController
      */
     public function postComponents(Guard $auth)
     {
-        $component = $this->component->create(
-            $auth->user()->id,
-            Binput::except('tags')
-        );
+        $componentData = Binput::except('tags');
+        $componentData['user_id'] = $auth->user()->id;
 
-        if (Binput::has('tags')) {
+        $component = $this->component->create($componentData);
+
+        if ($component->isValid() && Binput::has('tags')) {
             // The component was added successfully, so now let's deal with the tags.
             $tags = preg_split('/ ?, ?/', Binput::get('tags'));
 
