@@ -23,13 +23,15 @@
 
     @include('partials.dashboard.errors')
 
-    <h1>Subscribe to updates</h1>
+    <h1>{{ trans('cachet.subscriber.subscribe') }}</h1>
     <form action="{{ route('subscribe') }}" method="post">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <label for="email">
-            Subscribe to email updates
-        </label>
-        <input class="form-control" type="text" name="email">
-        <input class="btn" type="submit" value="Subscribe">
+        <div class="form-group">
+            <label for="email">{{ trans('cachet.subscriber.email.subscribe') }}</label>
+            <input class="form-control" type="text" name="email">
+        </div>
+        <div class="form-group">
+            <input class="btn btn-success btn-outline" type="submit" value="{{ trans('cachet.subscriber.button') }}">
+        </div>
     </form>
 @stop

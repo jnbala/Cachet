@@ -5,7 +5,7 @@
  *
  * (c) James Brooks <james@cachethq.io>
  * (c) Joseph Cohen <joseph.cohen@dinkbit.com>
- * (c) Graham Campbell <graham@mineuk.com>
+ * (c) Graham Campbell <graham@cachethq.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -49,7 +49,7 @@ class SubscribeController extends AbstractController
 
         if (!$subscriber->isValid()) {
             segment_track('Subscribers', [
-                'event'   => 'User Subscribed',
+                'event'   => 'Customer Subscribed',
                 'success' => false,
             ]);
 
@@ -57,20 +57,20 @@ class SubscribeController extends AbstractController
                 ->with('title', sprintf(
                     '<strong>%s</strong> %s',
                     trans('dashboard.notifications.whoops'),
-                    trans('dashboard.components.add.failure')
+                    trans('cachet.subscriber.email.failure')
                 ))
                 ->with('errors', $subscriber->getErrors());
         }
 
         segment_track('Subscribers', [
-            'event'   => 'User Subscribed',
+            'event'   => 'Customer Subscribed',
             'success' => true,
         ]);
 
         $successMsg = sprintf(
             '<strong>%s</strong> %s',
             trans('dashboard.notifications.awesome'),
-            trans('dashboard.components.add.success')
+            trans('cachet.subscriber.email.subscribed')
         );
 
         event(new CustomerHasSubscribedEvent($subscriber));
@@ -81,17 +81,17 @@ class SubscribeController extends AbstractController
     /**
      * Handle the verify subscriber email.
      *
-     * @param string $token
+     * @param string $code
      *
      * @return \Illuminate\View\View
      */
-    public function getVerify($token = null)
+    public function getVerify($code = null)
     {
-        if (is_null($token)) {
+        if (is_null($code)) {
             throw new NotFoundHttpException();
         }
 
-        $subscriber = Subscriber::where('verify_code', '=', $token)->first();
+        $subscriber = Subscriber::where('verify_code', '=', $code)->first();
 
         if (!$subscriber || $subscriber->verified()) {
             return Redirect::route('status-page');
@@ -101,14 +101,14 @@ class SubscribeController extends AbstractController
         $subscriber->save();
 
         segment_track('Subscribers', [
-            'event'   => 'User Email Verified',
+            'event'   => 'Customer Email Verified',
             'success' => true,
         ]);
 
         $successMsg = sprintf(
             '<strong>%s</strong> %s',
             trans('dashboard.notifications.awesome'),
-            trans('dashboard.components.add.success')
+            trans('cachet.subscriber.email.verified')
         );
 
         return Redirect::route('status-page')->with('success', $successMsg);

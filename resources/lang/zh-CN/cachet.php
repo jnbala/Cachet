@@ -60,6 +60,20 @@ return [
         ],
     ],
 
+    // Subscriber
+    'subscriber' => [
+        'subscribe' => 'Subscribe to get the most recent updates.',
+        'button'    => 'Subscribe',
+        'email'     => [
+            'subscribe'   => 'Subscribe to email updates.',
+            'subscribed'  => 'You\'ve been subscribed to email notifications.',
+            'verified'    => 'Your email subscription has been confirmed. Thank you!',
+            'unsuscribe'  => 'Unsuscribe from email updates.',
+            'unsuscribed' => 'Your email subscription has been canceled,',
+            'failure'     => 'Something went wrong with the subscription.',
+        ]
+    ],
+    
     // Other
     'powered_by'      => ':app 应用状态页面由 <a href="https://cachethq.io">Cachet</a>提供支持。',
     'about_this_site' => '关于此站点',

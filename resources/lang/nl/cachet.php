@@ -60,6 +60,20 @@ return [
         ],
     ],
 
+    // Subscriber
+    'subscriber' => [
+        'subscribe' => 'Subscribe to get the most recent updates.',
+        'button'    => 'Subscribe',
+        'email'     => [
+            'subscribe'   => 'Subscribe to email updates.',
+            'subscribed'  => 'You\'ve been subscribed to email notifications.',
+            'verified'    => 'Your email subscription has been confirmed. Thank you!',
+            'unsuscribe'  => 'Unsuscribe from email updates.',
+            'unsuscribed' => 'Your email subscription has been canceled,',
+            'failure'     => 'Something went wrong with the subscription.',
+        ]
+    ],
+
     // Other
     'powered_by'      => 'De statuspagina van :app is mogelijk gemaakt door <a href="https://cachethq.io">Cachet</a>.',
     'about_this_site' => 'Over deze site',

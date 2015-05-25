@@ -49,6 +49,29 @@ return [
         'revoke'     => 'Revocar API Key',
     ],
 
+    // Metrics
+    'metrics' => [
+        'filter' => [
+            'hourly'  => 'Hourly',
+            'daily'   => 'Daily',
+            'monthly' => 'Monthly',
+        ],
+    ],
+
+    // Subscriber
+    'subscriber' => [
+        'subscribe' => 'Subscribe to get the most recent updates.',
+        'button'    => 'Subscribe',
+        'email'     => [
+            'subscribe'   => 'Subscribe to email updates.',
+            'subscribed'  => 'You\'ve been subscribed to email notifications.',
+            'verified'    => 'Your email subscription has been confirmed. Thank you!',
+            'unsuscribe'  => 'Unsuscribe from email updates.',
+            'unsuscribed' => 'Your email subscription has been canceled,',
+            'failure'     => 'Something went wrong with the subscription.',
+        ]
+    ],
+
     // Other
     'powered_by'      => ':app La página de estado es alimentada por <a href="https://cachethq.github.io">Cachet</a>.',
     'about_this_site' => 'Acerca de este sitio',

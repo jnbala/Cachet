@@ -38,7 +38,7 @@ class StatusPageRoutes
                 'as'   => 'subscribe',
                 'uses' => 'SubscribeController@postSubscribe',
             ]);
-            $router->post('subscribe/{code}', [
+            $router->get('subscribe/verify/{code}', [
                 'as'   => 'subscribe-verify',
                 'uses' => 'SubscribeController@getVerify',
             ]);
