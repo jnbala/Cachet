@@ -69,7 +69,7 @@ return [
             'unsuscribe'  => 'Unsuscribe from email updates.',
             'unsuscribed' => 'Your email subscription has been canceled,',
             'failure'     => 'Something went wrong with the subscription.',
-        ]
+        ],
     ],
 
     // Other
