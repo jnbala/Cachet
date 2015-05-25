@@ -69,6 +69,11 @@ class Subscriber extends Model
         });
     }
 
+    /**
+     * Determines if the subscriber is verified.
+     *
+     * @return bool
+     */
     public function verified()
     {
         return !is_null($this->verified_at);
