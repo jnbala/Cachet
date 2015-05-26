@@ -17,23 +17,6 @@ use GrahamCampbell\Binput\Facades\Binput;
 class MetricPointController extends AbstractApiController
 {
     /**
-     * The metric point repository instance.
-     *
-     * @var \CachetHQ\Cachet\Models\MetricPoint
-     */
-    protected $metricPoint;
-
-    /**
-     * Create a new metric point controller instance.
-     *
-     * @param \CachetHQ\Cachet\Models\MetricPoint $metricPoint
-     */
-    public function __construct(MetircPoint $metricPoint)
-    {
-        $this->metricPoint = $metricPoint;
-    }
-
-    /**
      * Get a single metric point.
      *
      * @param int $id

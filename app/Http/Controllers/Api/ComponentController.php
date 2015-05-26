@@ -21,30 +21,16 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class ComponentController extends AbstractApiController
 {
     /**
-     * The component repository instance.
-     *
-     * @var \CachetHQ\Cachet\Models\Component
-     */
-    protected $component;
-
-    /**
-     * Create a new component controller instance.
-     *
-     * @param \CachetHQ\Cachet\Models\Component $component
-     */
-    public function __construct(Component $component)
-    {
-        $this->component = $component;
-    }
-
-    /**
      * Get all components.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \CachetHQ\Cachet\Models\Component         $component
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getComponents(Request $request)
+    public function getComponents(Request $request, Component $component)
     {
-        $components = $this->component->paginate(Binput::get('per_page', 20));
+        $components = $component->paginate(Binput::get('per_page', 20));
 
         return $this->paginator($components, $request);
     }
@@ -65,15 +51,16 @@ class ComponentController extends AbstractApiController
      * Create a new component.
      *
      * @param \Illuminate\Contracts\Auth\Guard $auth
+     * @param \CachetHQ\Cachet\Models\Component $component
      *
      * @return \CachetHQ\Cachet\Models\Component
      */
-    public function postComponents(Guard $auth)
+    public function postComponents(Guard $auth, Component $component)
     {
         $componentData = Binput::except('tags');
         $componentData['user_id'] = $auth->user()->id;
 
-        $component = $this->component->create($componentData);
+        $component = $component->create($componentData);
 
         if ($component->isValid()) {
             if (Binput::has('tags')) {

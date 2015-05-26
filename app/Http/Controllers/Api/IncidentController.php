@@ -20,30 +20,16 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class IncidentController extends AbstractApiController
 {
     /**
-     * The incident repository instance.
-     *
-     * @var \CachetHQ\Cachet\Models\Incident
-     */
-    protected $incident;
-
-    /**
-     * Create a new incident controller instance.
-     *
-     * @param \CachetHQ\Cachet\Models\Incident $incident
-     */
-    public function __construct(Incident $incident)
-    {
-        $this->incident = $incident;
-    }
-
-    /**
      * Get all incidents.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \CachetHQ\Cachet\Models\Incident          $incident
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getIncidents(Request $request)
+    public function getIncidents(Request $request, Incident $incident)
     {
-        $incidents = $this->incident->paginate(Binput::get('per_page', 20));
+        $incidents = $incident->paginate(Binput::get('per_page', 20));
 
         return $this->paginator($incidents, $request);
     }

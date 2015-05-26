@@ -19,30 +19,16 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class MetricController extends AbstractApiController
 {
     /**
-     * The metric repository instance.
-     *
-     * @var \CachetHQ\Cachet\Models\Metric
-     */
-    protected $metric;
-
-    /**
-     * Create a new metric controller instance.
-     *
-     * @param \CachetHQ\Cachet\Models\Metric $metric
-     */
-    public function __construct(Metric $metric)
-    {
-        $this->metric = $metric;
-    }
-
-    /**
      * Get all metrics.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \CachetHQ\Cachet\Models\Metric            $metric
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getMetrics(Request $request)
+    public function getMetrics(Request $request, Metric $metric)
     {
-        $metrics = $this->metric->paginate(Binput::get('per_page', 20));
+        $metrics = $metric->paginate(Binput::get('per_page', 20));
 
         return $this->paginator($metrics, $request);
     }
