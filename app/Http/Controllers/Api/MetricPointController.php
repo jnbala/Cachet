@@ -19,38 +19,42 @@ class MetricPointController extends AbstractApiController
     /**
      * Get a single metric point.
      *
-     * @param int $id
+     * @param \CachetHQ\Cachet\Models\Metric      $metric
+     * @param \CachetHQ\Cachet\Models\MetricPoint $metricPoint
      *
      * @return \CachetHQ\Cachet\Models\MetricPoint
      */
-    public function getMetricPoints($id)
+    public function getMetricPoints(Metric $metric, MetricPoint $metricPoint)
     {
-        return $this->item($this->metricPoint->findOrFail($id));
+        return $this->item($metricPoint);
     }
 
     /**
      * Create a new metric point.
      *
-     * @param int $id
+     * @param \CachetHQ\Cachet\Moels\Metric $metric
      *
      * @return \CachetHQ\Cachet\Models\MetricPoint
      */
-    public function postMetricPoints($id)
+    public function postMetricPoints(Metric $metric)
     {
-        return $this->item($this->metricPoint->create($id, Binput::all()));
+        $metricPointData = Binput::all();
+        $metricPointData['metric_id'] = $metric->id;
+        $metricPoint = MetricPoint::create($metricPointData);
+
+        return $this->item($metricPoint);
     }
 
     /**
      * Updates a metric point.
      *
-     * @param int $metricId
-     * @param int $pointId
+     * @param \CachetHQ\Cachet\Models\Metric      $metric
+     * @param \CachetHQ\Cachet\Models\MetircPoint $metricPoint
      *
      * @return \CachetHQ\Cachet\Models\MetricPoint
      */
-    public function putMetricPoint($metricId, $pointId)
+    public function putMetricPoint(Metric $metric, MetricPoint $metricPoint)
     {
-        $metricPoint = $this->metricPoint->findOrFail($pointId);
         $metricPoint->update(Binput::all());
 
         return $this->item($metricPoint);
@@ -59,14 +63,14 @@ class MetricPointController extends AbstractApiController
     /**
      * Destroys a metric point.
      *
-     * @param int $metricId
-     * @param int $pointId
+     * @param \CachetHQ\Cachet\Models\Metric      $metric
+     * @param \CachetHQ\Cachet\Models\MetricPoint $metricPoint
      *
      * @return \Dingo\Api\Http\Response
      */
-    public function deleteMetricPoint($metricId, $pointId)
+    public function deleteMetricPoint(Metric $metric, MetricPoint $metricPoint)
     {
-        $this->metricPoint->destroy($pointId);
+        $metricPoint->delete();
 
         return $this->noContent();
     }
