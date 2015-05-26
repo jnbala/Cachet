@@ -15,6 +15,7 @@ use CachetHQ\Cachet\Models\Incident;
 use GrahamCampbell\Binput\Facades\Binput;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class IncidentController extends AbstractApiController
 {
@@ -50,13 +51,13 @@ class IncidentController extends AbstractApiController
     /**
      * Get a single incident.
      *
-     * @param int $id
+     * @param \CachetHQ\Cachet\Models\Incident $incident
      *
      * @return \CachetHQ\Cachet\Models\Incident
      */
-    public function getIncident($id)
+    public function getIncident(Incident $incident)
     {
-        return $this->item($this->incident->findOrFail($id));
+        return $this->item($incident);
     }
 
     /**
@@ -68,31 +69,45 @@ class IncidentController extends AbstractApiController
      */
     public function postIncidents(Guard $auth)
     {
-        return $this->item($this->incident->create($auth->user()->id, Binput::all()));
+        $incidentData = Binput::all();
+        $incidentData['user_id'] = $auth->user()->id;
+        $incident = Incident::create($incidentData);
+
+        if ($incident->isValid()) {
+            return $this->item($incident);
+        }
+
+        throw new BadRequestHttpException();
     }
 
     /**
      * Update an existing incident.
      *
-     * @param int $id
+     * @param \CachetHQ\Cachet\Models\Inicdent $incident
      *
      * @return \CachetHQ\Cachet\Models\Incident
      */
-    public function putIncident($id)
+    public function putIncident(Incident $incident)
     {
-        return $this->item($this->incident->update($id, Binput::all()));
+        $incident->update(Binput::all());
+
+        if ($incident->isValid('updating')) {
+            return $this->item($incident);
+        }
+
+        throw new BadRequestHttpException();
     }
 
     /**
      * Delete an existing incident.
      *
-     * @param int $id
+     * @param \CachetHQ\Cachet\Models\Inicdent $incident
      *
-     * @return \Dingo\Api\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteIncident($id)
+    public function deleteIncident(Incident $incident)
     {
-        $this->incident->destroy($id);
+        $incident->delete();
 
         return $this->noContent();
     }

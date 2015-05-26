@@ -14,6 +14,7 @@ namespace CachetHQ\Cachet\Http\Controllers\Api;
 use CachetHQ\Cachet\Models\Metric;
 use GrahamCampbell\Binput\Facades\Binput;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class MetricController extends AbstractApiController
 {
@@ -49,25 +50,25 @@ class MetricController extends AbstractApiController
     /**
      * Get a single metric.
      *
-     * @param int $id
+     * @param \CachetHQ\Cachet\Models\Metric $metric
      *
      * @return \CachetHQ\Cachet\Models\Metric
      */
-    public function getMetric($id)
+    public function getMetric(Metric $metric)
     {
-        return $this->item($this->metric->findOrFail($id));
+        return $this->item($metric);
     }
 
     /**
      * Get all metric points.
      *
-     * @param int $id
+     * @param \CachetHQ\Cachet\Models\Metric $metric
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getMetricPoints($id)
+    public function getMetricPoints(Metric $metric)
     {
-        return $this->collection($this->metric->points($id));
+        return $this->collection($metric->points->paginate(Binput::get('per_page', 20)));
     }
 
     /**
@@ -77,31 +78,43 @@ class MetricController extends AbstractApiController
      */
     public function postMetrics()
     {
-        return $this->item($this->metric->create(Binput::all()));
+        $metric = Metric::create(Binput::all());
+
+        if ($metric->isValid()) {
+            return $this->item($metric);
+        }
+
+        throw new BadRequestHttpException();
     }
 
     /**
      * Update an existing metric.
      *
-     * @param int $id
+     * @param \CachetHQ\Cachet\Models\Metric $metric
      *
      * @return \CachetHQ\Cachet\Models\Metric
      */
-    public function putMetric($id)
+    public function putMetric(Metric $metric)
     {
-        return $this->item($this->metric->update($id, Binput::all()));
+        $metric->update(Binput::all());
+
+        if ($metric->isValid('updating')) {
+            return $this->item($metric);
+        }
+
+        throw new BadRequestHttpException();
     }
 
     /**
      * Delete an existing metric.
      *
-     * @param int $id
+     * @param \CachetHQ\Cachet\Models\Metric $metric
      *
-     * @return \Dingo\Api\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteMetric($id)
+    public function deleteMetric(Metric $metric)
     {
-        $this->metric->destroy($id);
+        $metric->delete();
 
         return $this->noContent();
     }

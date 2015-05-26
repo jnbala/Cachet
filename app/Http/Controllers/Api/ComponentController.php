@@ -16,6 +16,7 @@ use CachetHQ\Cachet\Models\Component;
 use GrahamCampbell\Binput\Facades\Binput;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ComponentController extends AbstractApiController
 {
@@ -51,13 +52,13 @@ class ComponentController extends AbstractApiController
     /**
      * Get a single component.
      *
-     * @param int $id
+     * @param \CachetHQ\Cachet\Models\Component $component
      *
      * @return \CachetHQ\Cachet\Models\Component
      */
-    public function getComponent($id)
+    public function getComponent(Component $component)
     {
-        return $this->item($this->component->findOrFail($id));
+        return $this->item($component);
     }
 
     /**
@@ -74,60 +75,68 @@ class ComponentController extends AbstractApiController
 
         $component = $this->component->create($componentData);
 
-        if ($component->isValid() && Binput::has('tags')) {
-            // The component was added successfully, so now let's deal with the tags.
-            $tags = preg_split('/ ?, ?/', Binput::get('tags'));
+        if ($component->isValid()) {
+            if (Binput::has('tags')) {
+                // The component was added successfully, so now let's deal with the tags.
+                $tags = preg_split('/ ?, ?/', Binput::get('tags'));
 
-            // For every tag, do we need to create it?
-            $componentTags = array_map(function ($taggable) use ($component) {
-                return Tag::firstOrCreate([
-                    'name' => $taggable,
-                ])->id;
-            }, $tags);
+                // For every tag, do we need to create it?
+                $componentTags = array_map(function ($taggable) use ($component) {
+                    return Tag::firstOrCreate([
+                        'name' => $taggable,
+                    ])->id;
+                }, $tags);
 
-            $component->tags()->sync($componentTags);
+                $component->tags()->sync($componentTags);
+            }
+
+            return $this->item($component);
         }
 
-        return $this->item($component);
+        throw new BadRequestHttpException();
     }
 
     /**
      * Update an existing component.
      *
-     * @param int $id
+     * @param \CachetHQ\Cachet\Models\Componet $component
      *
      * @return \CachetHQ\Cachet\Models\Component
      */
-    public function putComponent($id)
+    public function putComponent(Component $component)
     {
-        $component = $this->component->update($id, Binput::except('tags'));
+        $component->update(Binput::except('tags'));
 
-        if (Binput::has('tags')) {
-            $tags = preg_split('/ ?, ?/', Binput::get('tags'));
+        if ($component->isValid('updating')) {
+            if (Binput::has('tags')) {
+                $tags = preg_split('/ ?, ?/', Binput::get('tags'));
 
-            // For every tag, do we need to create it?
-            $componentTags = array_map(function ($taggable) use ($component) {
-                return Tag::firstOrCreate([
-                    'name' => $taggable,
-                ])->id;
-            }, $tags);
+                // For every tag, do we need to create it?
+                $componentTags = array_map(function ($taggable) use ($component) {
+                    return Tag::firstOrCreate([
+                        'name' => $taggable,
+                    ])->id;
+                }, $tags);
 
-            $component->tags()->sync($componentTags);
+                $component->tags()->sync($componentTags);
+            }
+
+            return $this->item($component);
         }
 
-        return $this->item($component);
+        throw new BadRequestHttpException();
     }
 
     /**
      * Delete an existing component.
      *
-     * @param int $id
+     * @param \CachetHQ\Cachet\Models\Component $component
      *
-     * @return \Dingo\Api\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteComponent($id)
+    public function deleteComponent(Component $component)
     {
-        $this->component->destroy($id);
+        $component->delete();
 
         return $this->noContent();
     }

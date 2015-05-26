@@ -28,11 +28,11 @@ class ApiRoutes
         ], function ($router) {
             // Components
             $router->get('components', 'ComponentController@getComponents');
-            $router->get('components/{id}', 'ComponentController@getComponent');
+            $router->get('components/{component}', 'ComponentController@getComponent');
 
             // Incidents
             $router->get('incidents', 'IncidentController@getIncidents');
-            $router->get('incidents/{id}', 'IncidentController@getIncident');
+            $router->get('incidents/{incident}', 'IncidentController@getIncident');
 
             // Metrics
             $router->get('metrics', 'MetricController@getMetrics');
@@ -44,17 +44,17 @@ class ApiRoutes
                 $router->post('components', 'ComponentController@postComponents');
                 $router->post('incidents', 'IncidentController@postIncidents');
                 $router->post('metrics', 'MetricController@postMetrics');
-                $router->post('metrics/{id}/points', 'MetricPointController@postMetricPoints');
+                $router->post('metrics/{metric}/points', 'MetricPointController@postMetricPoints');
 
-                $router->put('components/{id}', 'ComponentController@putComponent');
-                $router->put('incidents/{id}', 'IncidentController@putIncident');
-                $router->put('metrics/{id}', 'MetricController@putMetric');
-                $router->put('metrics/{id}/points/{metric_id}', 'MetricPointController@putMetricPoint');
+                $router->put('components/{component}', 'ComponentController@putComponent');
+                $router->put('incidents/{incident}', 'IncidentController@putIncident');
+                $router->put('metrics/{metric}', 'MetricController@putMetric');
+                $router->put('metrics/{metric}/points/{metric_point}', 'MetricPointController@putMetricPoint');
 
-                $router->delete('components/{id}', 'ComponentController@deleteComponent');
-                $router->delete('incidents/{id}', 'IncidentController@deleteIncident');
-                $router->delete('metrics/{id}', 'MetricController@deleteMetric');
-                $router->delete('metrics/{id}/points/{metric_id}', 'MetricPointController@deleteMetricPoint');
+                $router->delete('components/{component}', 'ComponentController@deleteComponent');
+                $router->delete('incidents/{incident}', 'IncidentController@deleteIncident');
+                $router->delete('metrics/{metric}', 'MetricController@deleteMetric');
+                $router->delete('metrics/{metric}/points/{metric_point}', 'MetricPointController@deleteMetricPoint');
             });
         });
     }
